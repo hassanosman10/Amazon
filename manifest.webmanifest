@@ -1,0 +1,10 @@
+{
+  "name": "BNM Flex Booker",
+  "short_name": "BNM Flex",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#101923",
+  "theme_color": "#101923",
+  "lang": "ar",
+  "dir": "rtl"
+}

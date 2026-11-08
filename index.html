@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101923">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<title>BNM Flex Booker</title>
+<style>
+:root{color-scheme:dark;--bg:#101923;--panel:#1b2b38;--muted:#a5b4c3;--green:#8be3b0;--line:#344553}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#f5f7fa;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+main{max-width:540px;margin:auto;padding:calc(15px + env(safe-area-inset-top)) 15px calc(28px + env(safe-area-inset-bottom))}
+header{display:flex;align-items:center;justify-content:space-between;margin:8px 0 20px}.brand{display:flex;gap:11px;align-items:center}.logo{width:44px;height:44px;border-radius:13px;background:#24394b;display:grid;place-items:center;color:var(--green);font-size:23px}
+h1{font-size:19px;margin:0;letter-spacing:.4px}small,.muted{color:var(--muted)}.tag{font-size:11px;color:#b9f5d1;background:#183c30;border:1px solid #276448;padding:5px 9px;border-radius:20px}
+.card{background:var(--panel);border:1px solid #263a49;border-radius:17px;padding:15px;margin:12px 0}.eyebrow{font-size:12px;color:var(--muted)}.big{font-size:27px;font-weight:750;margin:8px 0}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:15px}.stat{border-top:1px solid var(--line);padding-top:12px}.price{color:var(--green);font-size:25px;font-weight:750}
+label{display:block;font-size:12px;color:var(--muted);margin:12px 0 6px}input,select{width:100%;padding:12px;border-radius:10px;border:1px solid #405464;background:#101923;color:white;font-size:15px}
+button{border:0;border-radius:11px;padding:12px 15px;font-size:14px;font-weight:700;background:var(--green);color:#10251b;cursor:pointer}button.secondary{background:#293d4c;color:#e9f1f6;border:1px solid #405464}button.danger{background:#4b2930;color:#ffdce1;border:1px solid #74404a}
+nav{display:flex;gap:8px;margin:14px 0}nav button{flex:1}.filters{display:grid;grid-template-columns:1fr 1fr;gap:10px}.offer{background:#172632;border:1px solid #344553;border-radius:14px;padding:13px;margin-top:10px}.offer .station{font-weight:700}.offer .code{font-size:12px;color:var(--muted);margin-top:3px}.offer .amount{font-size:25px;color:var(--green);font-weight:800}
+.pill{font-size:11px;padding:5px 8px;border-radius:20px;background:#183c30;color:#b9f5d1}.pill.warn{background:#49391d;color:#ffe1a3}.note{font-size:12px;line-height:1.65;color:var(--muted)}.hidden{display:none}.checkrow{display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid #2a3c49}.checkrow input{width:auto}.empty{padding:20px;text-align:center;color:var(--muted);border:1px dashed #405464;border-radius:13px;margin-top:10px}
+</style>
+</head>
+<body>
+<main>
+<header><div class="brand"><div class="logo">ϟ</div><div><h1>BNM FLEX BOOKER</h1><small>لوحة متابعة البلوكات</small></div></div><span class="tag">V2 · تجريبي</span></header>
+<section id="dashboard">
+ <div class="card"><div class="row"><span class="eyebrow">إعدادات البحث المحفوظة</span><span class="pill">صباحي</span></div><div class="big" dir="ltr" id="timeSummary">05:00 AM — 12:00 PM</div><div class="stats"><div class="stat"><div class="eyebrow">3 ساعات — الحد الأدنى</div><div class="price" id="min3Summary">£60+</div></div><div class="stat"><div class="eyebrow">4 ساعات — الحد الأدنى</div><div class="price" id="min4Summary">£70+</div></div></div><p class="note" id="stationSummary">المحطات السبعة مشمولة، بما فيها Warrington.</p></div>
+ <div class="row"><strong>العروض التجريبية</strong><span class="eyebrow">أدخل العروض يدوياً</span></div>
+ <nav><button class="secondary" id="allBtn">كل العروض</button><button class="secondary" id="eligibleBtn">المطابقة للشروط</button></nav>
+ <div id="offers"></div>
+ <div class="card"><strong>إضافة عرض للمقارنة</strong><div class="filters"><div><label>المحطة</label><select id="newStation"></select></div><div><label>المدة</label><select id="newHours"><option value="3">3 ساعات</option><option value="4">4 ساعات</option></select></div><div><label>الأجر (£)</label><input id="newPay" type="number" min="0" placeholder="مثلاً 65"></div><div><label>وقت البداية</label><input id="newTime" type="time" value="05:00"></div></div><button style="width:100%;margin-top:14px" id="addOffer">إضافة للمقارنة</button></div>
+</section>
+<section id="settings" class="hidden">
+ <div class="card"><strong>تفضيلاتك</strong><div class="filters"><div><label>بداية الوقت</label><input id="start" type="time" value="05:00"></div><div><label>نهاية الوقت</label><input id="end" type="time" value="12:00"></div><div><label>حد 3 ساعات (£)</label><input id="min3" type="number" value="60"></div><div><label>حد 4 ساعات (£)</label><input id="min4" type="number" value="70"></div></div><label>ترتيب العروض</label><select id="sort"><option value="pay">أعلى إجمالي أجر</option><option value="station">اسم المحطة</option></select><label>المحطات المفضلة</label><div id="stationChecks"></div><button style="width:100%;margin-top:16px" id="saveSettings">حفظ الإعدادات</button></div>
+ <div class="card"><strong>التنبيهات</strong><p class="note">يمكن طلب إذن إشعارات المتصفح. في هذه النسخة لا توجد تغذية مباشرة من Amazon Flex؛ التنبيه لا يعني أن التطبيق يراقب عروض أمازون تلقائياً.</p><button class="secondary" style="width:100%" id="enableNotifications">تفعيل إذن الإشعارات</button><p class="note" id="notifyStatus"></p></div>
+</section>
+<section id="history" class="hidden"><div class="row"><strong>سجل البلوكات</strong><button class="danger" id="clearHistory">مسح السجل</button></div><div id="historyList"></div></section>
+<nav><button id="homeTab">العروض</button><button class="secondary" id="settingsTab">الإعدادات</button><button class="secondary" id="historyTab">السجل</button></nav>
+<footer class="note">نسخة محلية تجريبية تحفظ إعداداتك وسجلك على هذا الجهاز. لا تتصل بحساب Amazon Flex، ولا تقرأ العروض الحقيقية، ولا تحجز بلوكات. لا تدخل كلمة مرور Amazon هنا. التثبيت كتطبيق يحتاج استضافة آمنة HTTPS.</footer>
+</main>
+<script>
+const stations=[["Trafford Manchester","VXM1"],["Altrincham","VMR1"],["Manchester","DXM5"],["Manchester","DXM3"],["Trafford Manchester","DXM2"],["Manchester","DXM4"],["Warrington","VMR2"]];
+const defaults={start:"05:00",end:"12:00",min3:60,min4:70,sort:"pay",selected:stations.map(s=>s[1])};
+let settings={...defaults,...JSON.parse(localStorage.getItem("bnmSettings")||"{}")};
+let offers=JSON.parse(localStorage.getItem("bnmOffers")||"[]");
+let history=JSON.parse(localStorage.getItem("bnmHistory")||"[]");
+let onlyEligible=false;
+const $=id=>document.getElementById(id);
+const persist=()=>{localStorage.setItem("bnmSettings",JSON.stringify(settings));localStorage.setItem("bnmOffers",JSON.stringify(offers));localStorage.setItem("bnmHistory",JSON.stringify(history))};
+function stationLabel(code){const s=stations.find(x=>x[1]===code);return s?s[0]:code}
+function meets(o){return o.hours===3?o.pay>=settings.min3:o.hours===4?o.pay>=settings.min4:false}
+function render(){
+ $("timeSummary").textContent=settings.start+" — "+settings.end;$("min3Summary").textContent="£"+settings.min3+"+";$("min4Summary").textContent="£"+settings.min4+"+";
+ $("stationSummary").textContent=settings.selected.length+" محطات محددة، بما فيها Warrington عند اختيار VMR2.";
+ let list=offers.filter(o=>settings.selected.includes(o.code)).filter(o=>!onlyEligible||meets(o));
+ list.sort(settings.sort==="pay"?(a,b)=>b.pay-a.pay:(a,b)=>stationLabel(a.code).localeCompare(stationLabel(b.code)));
+ $("offers").innerHTML=list.map(o=>`<article class="offer"><div class="row"><div><div class="station">${stationLabel(o.code)}</div><div class="code">${o.code} · ${o.time||"وقت غير محدد"}</div></div><div class="amount">£${o.pay}</div></div><div class="row" style="margin-top:12px"><span class="eyebrow">${o.hours} ساعات</span><span class="pill ${meets(o)?"":"warn"}">${meets(o)?"مطابق للحد":"أقل من الحد"}</span></div><div class="row" style="margin-top:10px"><button class="secondary" onclick="addHistory('${o.id}')">إضافة للسجل</button><button class="danger" onclick="deleteOffer('${o.id}')">حذف</button></div></article>`).join("")||'<div class="empty">لا توجد عروض هنا حالياً. أضف عرضاً تجريبياً للمقارنة.</div>';
+ renderHistory();
+}
+function renderHistory(){$("historyList").innerHTML=history.map(h=>`<div class="offer"><div class="row"><strong>${stationLabel(h.code)}</strong><strong class="price">£${h.pay}</strong></div><div class="code">${h.hours} ساعات · ${h.date}</div></div>`).join("")||'<div class="empty">لا يوجد بلوكات مسجلة بعد.</div>'}
+function addHistory(id){const o=offers.find(x=>x.id===id);if(!o)return;history.unshift({...o,date:new Date().toLocaleString()});persist();render();alert("تمت إضافة العرض إلى السجل التجريبي.")}
+function deleteOffer(id){offers=offers.filter(o=>o.id!==id);persist();render()}
+function show(section){["dashboard","settings","history"].forEach(id=>$(id).classList.toggle("hidden",id!==section))}
+function setupSettings(){
+ $("start").value=settings.start;$("end").value=settings.end;$("min3").value=settings.min3;$("min4").value=settings.min4;$("sort").value=settings.sort;
+ $("stationChecks").innerHTML=stations.map(([name,code])=>`<label class="checkrow"><input type="checkbox" value="${code}" ${settings.selected.includes(code)?"checked":""}><span>${name} <small dir="ltr">${code}</small></span></label>`).join("");
+ $("newStation").innerHTML=stations.map(([name,code])=>`<option value="${code}">${name} (${code})</option>`).join("");
+}
+$("allBtn").onclick=()=>{onlyEligible=false;render()};$("eligibleBtn").onclick=()=>{onlyEligible=true;render()};
+$("homeTab").onclick=()=>show("dashboard");$("settingsTab").onclick=()=>show("settings");$("historyTab").onclick=()=>show("history");
+$("saveSettings").onclick=()=>{settings={start:$("start").value,end:$("end").value,min3:+$("min3").value,min4:+$("min4").value,sort:$("sort").value,selected:[...$("stationChecks").querySelectorAll("input:checked")].map(x=>x.value)};persist();render();alert("تم حفظ الإعدادات على هذا الجهاز.")};
+$("addOffer").onclick=()=>{const pay=+$("newPay").value;if(!pay){alert("أدخل قيمة الأجر أولاً.");return}offers.unshift({id:String(Date.now()),code:$("newStation").value,hours:+$("newHours").value,pay,time:$("newTime").value});persist();$("newPay").value="";render();if(meets(offers[0])&&"Notification"in window&&Notification.permission==="granted")new Notification("BNM Flex Booker",{body:"عرض تجريبي مطابق لشروطك: £"+pay+" · "+stationLabel(offers[0].code)})};
+$("clearHistory").onclick=()=>{if(confirm("هل تريد مسح السجل؟")){history=[];persist();renderHistory()}};
+$("enableNotifications").onclick=async()=>{if(!("Notification"in window)){$("notifyStatus").textContent="الإشعارات غير مدعومة في هذا المتصفح.";return}const p=await Notification.requestPermission();$("notifyStatus").textContent=p==="granted"?"تم السماح بالإشعارات على هذا المتصفح.":"لم يتم السماح بالإشعارات."};
+setupSettings();render();
+if("serviceWorker"in navigator && location.protocol.startsWith("http"))navigator.serviceWorker.register("./sw.js").catch(()=>{});
+</script>
+</body></html>
